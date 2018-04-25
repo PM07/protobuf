@@ -87,6 +87,12 @@ void RepeatedMessageFieldGenerator::GenerateMembers(io::Printer* printer) {
     "}\n");
 }
 
+
+std::string RepeatedMessageFieldGenerator::type_string_in_code()
+{
+    return "pbc::RepeatedField<" + variables_["type_name"] + ">";
+}
+
 void RepeatedMessageFieldGenerator::GenerateMergingCode(io::Printer* printer) {
   printer->Print(
     variables_,

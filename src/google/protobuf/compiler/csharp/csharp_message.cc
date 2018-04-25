@@ -232,6 +232,7 @@ void MessageGenerator::Generate(io::Printer* printer) {
   GenerateFrameworkMethods(printer);
   GenerateMessageSerializationMethods(printer);
   GenerateMergingMethods(printer);
+  GenerateForceAotMethod(printer);
 
   // Nested messages and enums
   if (HasNestedGeneratedTypes()) {
@@ -557,6 +558,24 @@ void MessageGenerator::GenerateMergingMethods(io::Printer* printer) {
   printer->Print("}\n"); // while
   printer->Outdent();
   printer->Print("}\n\n"); // method
+}
+
+void MessageGenerator::GenerateForceAotMethod(io::Printer* printer) {
+    // Note: IL2CPP IOS 컴파일에 대응하기 위해 new ReflectionHelper<T, T>를 명시
+    printer->Print("private void ForceAot() {\n");
+    printer->Indent();
+
+    for (int i = 0; i < descriptor_->field_count(); i++) {
+        const FieldDescriptor* fieldDescriptor = descriptor_->field(i);
+        std::unique_ptr<FieldGeneratorBase> generator(
+            CreateFieldGeneratorInternal(fieldDescriptor));
+
+        printer->Print("new pbr::ReflectionUtil.ReflectionHelper<$class_name$, $field_type$>();\n",
+            "class_name", class_name(),
+            "field_type", generator->type_string_in_code());
+    }
+    printer->Outdent();
+    printer->Print("}\n\n"); // method
 }
 
 int MessageGenerator::GetFieldOrdinal(const FieldDescriptor* descriptor) {

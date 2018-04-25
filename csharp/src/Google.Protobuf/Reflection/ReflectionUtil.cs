@@ -48,7 +48,7 @@ namespace Google.Protobuf.Reflection
     /// Mind-bending stuff (at least to your humble narrator) but the resulting delegates are
     /// very fast compared with calling Invoke later on.
     /// </summary>
-    internal static class ReflectionUtil
+    public static class ReflectionUtil
     {
         /// <summary>
         /// Empty Type[] used when calling GetProperty to force property instead of indexer fetching.
@@ -112,7 +112,7 @@ namespace Google.Protobuf.Reflection
             Action<IMessage, object> CreateActionIMessageObject(MethodInfo method);
         }
 
-        private class ReflectionHelper<T1, T2> : IReflectionHelper
+        public class ReflectionHelper<T1, T2> : IReflectionHelper
         {
 
             public Func<IMessage, int> CreateFuncIMessageInt32(MethodInfo method)

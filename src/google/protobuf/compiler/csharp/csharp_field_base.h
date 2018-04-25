@@ -49,6 +49,8 @@ class FieldGeneratorBase : public SourceGeneratorBase {
                      const Options* options);
   ~FieldGeneratorBase();
 
+  static std::string type_name(const FieldDescriptor* descriptor);
+
   virtual void GenerateCloningCode(io::Printer* printer) = 0;
   virtual void GenerateFreezingCode(io::Printer* printer);
   virtual void GenerateCodecCode(io::Printer* printer);
@@ -62,6 +64,8 @@ class FieldGeneratorBase : public SourceGeneratorBase {
   virtual void WriteEquals(io::Printer* printer) = 0;
   // Currently unused, as we use reflection to generate JSON
   virtual void WriteToString(io::Printer* printer) = 0;
+
+  virtual std::string type_string_in_code();
 
  protected:
   const FieldDescriptor* descriptor_;
@@ -80,7 +84,7 @@ class FieldGeneratorBase : public SourceGeneratorBase {
   std::string property_name();
   std::string name();
   std::string type_name();
-  std::string type_name(const FieldDescriptor* descriptor);
+
   bool has_default_value();
   bool is_nullable_type();
   std::string default_value();

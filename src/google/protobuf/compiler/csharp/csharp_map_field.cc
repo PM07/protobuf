@@ -88,6 +88,16 @@ void MapFieldGenerator::GenerateMembers(io::Printer* printer) {
     "}\n");
 }
 
+std::string MapFieldGenerator::type_string_in_code()
+{
+    const FieldDescriptor* key_descriptor =
+        descriptor_->message_type()->FindFieldByName("key");
+    const FieldDescriptor* value_descriptor =
+        descriptor_->message_type()->FindFieldByName("value");
+    
+    return "pbc::MapField<" + type_name(key_descriptor) + ", " + type_name(value_descriptor) + ">";
+}
+
 void MapFieldGenerator::GenerateMergingCode(io::Printer* printer) {
   printer->Print(
       variables_,

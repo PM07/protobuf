@@ -72,6 +72,11 @@ void RepeatedPrimitiveFieldGenerator::GenerateMembers(io::Printer* printer) {
     "}\n");
 }
 
+std::string RepeatedPrimitiveFieldGenerator::type_string_in_code()
+{
+    return "pbc::RepeatedField<" + variables_["type_name"] + ">";
+}
+
 void RepeatedPrimitiveFieldGenerator::GenerateMergingCode(io::Printer* printer) {
   printer->Print(
     variables_,

@@ -72,6 +72,12 @@ void RepeatedEnumFieldGenerator::GenerateMembers(io::Printer* printer) {
     "}\n");
 }
 
+std::string RepeatedEnumFieldGenerator::type_string_in_code()
+{
+    return "pbc::RepeatedField<" + variables_["type_name"] + ">";
+}
+
+
 void RepeatedEnumFieldGenerator::GenerateMergingCode(io::Printer* printer) {
   printer->Print(
     variables_,

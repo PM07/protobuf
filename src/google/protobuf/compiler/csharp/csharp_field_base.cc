@@ -119,6 +119,12 @@ void FieldGeneratorBase::GenerateCodecCode(io::Printer* printer) {
     // Could fail if we get called here though...
 }
 
+// 실제 코드로 변환되는 type 문자열 ex) "MapField<int, string>"
+std::string FieldGeneratorBase::type_string_in_code()
+{
+    return type_name();
+}
+
 void FieldGeneratorBase::AddDeprecatedFlag(io::Printer* printer) {
   if (descriptor_->options().deprecated()) {
     printer->Print("[global::System.ObsoleteAttribute]\n");
